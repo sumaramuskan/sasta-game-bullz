@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
   role: { type: String, default: 'user' }, // Role: 'user' or 'admin'
   isActive: { type: Boolean, default: true }, // Indicates if the user account is active
   preferredSports: { type: [String], default: [] }, // List of preferred sports (e.g., ["Cricket", "Football"])
-  lastLogin: { type: Date, default: null }, // Last login timestamp
+  lastLogin: { type: Date, default: null }, // Last login timestamp,
+  joined:{type:Date, default:new Date()},
   bookingHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Booking' }], // Array of past bookings
 }, { timestamps: true });
 

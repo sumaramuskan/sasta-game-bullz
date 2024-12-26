@@ -4,7 +4,7 @@ const Venue = require('../model/Venue');
 
 // Create a new venue
 exports.createVenue = async (req, res) => {
-  const { name, location, capacity, sportsAvailable, contactNumber } = req.body;
+  const { name, location, capacity, sportsAvailable, contactNumber , owner , isActive } = req.body;
   
   try {
     const venue = new Venue({
@@ -13,6 +13,10 @@ exports.createVenue = async (req, res) => {
       capacity,
       sportsAvailable,
       contactNumber,
+      owner,
+      isActive,
+      openingHours,
+      bookings
     });
     await venue.save();
     res.status(201).json({ message: 'Venue created successfully', venue });
@@ -24,7 +28,7 @@ exports.createVenue = async (req, res) => {
 // Get all venues
 exports.getAllVenues = async (req, res) => {
   try {
-    const venues = await Venue.find({ isActive: true });
+    const venues = await Venue.find({isActive : true});
     res.status(200).json({ venues });
   } catch (error) {
     res.status(400).json({ message: 'Error fetching venues', error });
@@ -45,7 +49,9 @@ exports.getVenueById = async (req, res) => {
 };
 
 // Update venue details
+//http://localhost:8000/venue/api/update/676cfb392e1666986b47d8ce 
 exports.updateVenue = async (req, res) => {
+
   const { id } = req.params;
   const { name, location, capacity, sportsAvailable, contactNumber, isActive } = req.body;
 
@@ -53,9 +59,9 @@ exports.updateVenue = async (req, res) => {
     const venue = await Venue.findById(id);
     if (!venue) return res.status(404).json({ message: 'Venue not found' });
 
-    if (venue.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'You are not authorized to update this venue' });
-    }
+    // if (venue.owner.toString() !== req.user._id.toString()) {
+    //   return res.status(403).json({ message: 'You are not authorized to update this venue' });
+    // }
 
     venue.name = name || venue.name;
     venue.location = location || venue.location;
@@ -64,14 +70,16 @@ exports.updateVenue = async (req, res) => {
     venue.contactNumber = contactNumber || venue.contactNumber;
     venue.isActive = isActive !== undefined ? isActive : venue.isActive;
 
+
     await venue.save();
     res.status(200).json({ message: 'Venue updated successfully', venue });
   } catch (error) {
-    res.status(400).json({ message: 'Error updating venue', error });
+    res.status(400).json({ message: 'Error updating venue', error },{"error":error});
   }
 };
 
 // Deactivate venue
+//http://localhost:8000/venue/api/deactivate/676cfb392e1666986b47d8ce
 exports.deactivateVenue = async (req, res) => {
   const { id } = req.params;
 
@@ -79,9 +87,9 @@ exports.deactivateVenue = async (req, res) => {
     const venue = await Venue.findById(id);
     if (!venue) return res.status(404).json({ message: 'Venue not found' });
 
-    if (venue.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'You are not authorized to deactivate this venue' });
-    }
+    // if (venue.owner.toString() !== req.user._id.toString()) {
+    //   return res.status(403).json({ message: 'You are not authorized to deactivate this venue' });
+    // }
 
     venue.isActive = false;
     await venue.save();
@@ -90,3 +98,4 @@ exports.deactivateVenue = async (req, res) => {
     res.status(400).json({ message: 'Error deactivating venue', error });
   }
 };
+

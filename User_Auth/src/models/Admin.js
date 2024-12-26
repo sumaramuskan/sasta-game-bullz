@@ -23,6 +23,7 @@ const AdminSchema = new mongoose.Schema({
     default: 0 
   }, 
   lastLogin: { type: Date, default: null }, // Tracks the last login time
+  joined:{type:Date, default:new Date()},
   isActive: { type: Boolean, default: true }, // Indicates if the admin/owner account is active
 }, { timestamps: true });
 

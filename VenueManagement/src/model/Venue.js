@@ -7,8 +7,8 @@ const VenueSchema = new mongoose.Schema({
   capacity: { type: Number, required: true }, // Capacity of the venue
   sportsAvailable: { type: [String], required: true }, // List of sports available in the venue (e.g., ["Football", "Basketball"])
   contactNumber: { type: String, required: true }, // Contact number for the venue
+  owner: { type: String, required: true },
   isActive: { type: Boolean, default: false }, // Is the venue currently active or closed
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the user (owner) who added the venue
   openingHours: { // Operational hours
     type: Map,
     of: {

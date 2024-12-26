@@ -14,15 +14,15 @@ const router = express.Router();
 router.post('/create', authenticate, createVenue);
 
 // Route to get all venues
-router.get('/fetch', authenticate, getAllVenues);
+router.get('/fetch', getAllVenues);
 
 // Route to get a specific venue by ID
-router.get('/:id', authenticate, getVenueById);
+router.get('/fetch/:id',  getVenueById);
 
 // Route to update a venue
-router.put('/:id', authenticate, updateVenue);
+router.patch('/update/:id', authenticate, updateVenue);
 
 // Route to deactivate a venue
-router.patch('/:id/deactivate', authenticate, deactivateVenue);
+router.patch('/deactivate/:id',authenticate, deactivateVenue);
 
 module.exports = router;
