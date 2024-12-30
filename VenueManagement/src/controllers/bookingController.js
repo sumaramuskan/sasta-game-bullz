@@ -2,6 +2,7 @@
 const Venue = require('../model/Venue');
 const mongoose = require('mongoose');
 const axios = require('axios')
+const {broadcastMessage}=require('../utils/websocket')
 
 
 
@@ -73,22 +74,28 @@ exports.bookVenue = async (req, res) => {
     }
 
     const cost = parseInt(duration * venue.pricePerHour);
+    booking=[date,
+                   startTime24,
+                   endTime24,
+                   new mongoose.Types.ObjectId(userId),
+                   sport,
+                   cost,
+                   sport]
 
     // Create booking
-    venue.bookings.push({
-      date,
-      startTime: startTime24,
-      endTime: endTime24,
-      user: new mongoose.Types.ObjectId(userId),
-      sport, // Add sport to the booking
-      cost,
-      sport// Add cost to the booking
-    });
+    venue.bookings.push({date,
+                                            startTime: startTime24,
+                                            endTime: endTime24,
+                                            user: new mongoose.Types.ObjectId(userId),
+                                            sport,
+                                            cost,
+                                            sport});
+    broadcastMessage( booking )
     await venue.save();
     res.status(201).json({ message: 'Booking successful', venue, cost });
 
   } catch (error) {
-//    console.error(error);
+    console.error(error);
     res.status(500).json({ message: 'Error booking venue', "error":error });
   }
 };
