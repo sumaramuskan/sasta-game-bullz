@@ -1,4 +1,3 @@
-
 const express = require('express');
 const connectDB = require('./src/config/conn');  // Import the MongoDB connection logic
 const authRoutes = require('./src/routes/authRoutes');

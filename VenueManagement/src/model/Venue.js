@@ -8,6 +8,7 @@ const VenueSchema = new mongoose.Schema({
   sportsAvailable: { type: [String], required: true }, // List of sports available in the venue (e.g., ["Football", "Basketball"])
   contactNumber: { type: String, required: true }, // Contact number for the venue
   owner: { type: String, required: true },
+  pricePerHour:{type:Number,required:true},
   isActive: { type: Boolean, default: false }, // Is the venue currently active or closed
   openingHours: { // Operational hours
     type: Map,
@@ -32,7 +33,10 @@ const VenueSchema = new mongoose.Schema({
       startTime: { type: String, required: true }, // Start time of booking
       endTime: { type: String, required: true }, // End time of booking
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // User who booked the slot
-    }
+      cost:{type:Number,required:true},
+      sport:{type:String,required:true}
+      }
+
   ],
 }, { timestamps: true });
 

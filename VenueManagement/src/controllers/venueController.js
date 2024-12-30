@@ -4,7 +4,7 @@ const Venue = require('../model/Venue');
 
 // Create a new venue
 exports.createVenue = async (req, res) => {
-  const { name, location, capacity, sportsAvailable, contactNumber , owner , isActive } = req.body;
+  const { name, location, capacity, sportsAvailable, contactNumber , owner , isActive,pricePerHour } = req.body;
   
   try {
     const venue = new Venue({
@@ -15,8 +15,8 @@ exports.createVenue = async (req, res) => {
       contactNumber,
       owner,
       isActive,
-      openingHours,
-      bookings
+      pricePerHour,
+
     });
     await venue.save();
     res.status(201).json({ message: 'Venue created successfully', venue });
@@ -53,7 +53,7 @@ exports.getVenueById = async (req, res) => {
 exports.updateVenue = async (req, res) => {
 
   const { id } = req.params;
-  const { name, location, capacity, sportsAvailable, contactNumber, isActive } = req.body;
+  const { name, location, capacity, sportsAvailable, contactNumber, isActive , pricePerHour } = req.body;
 
   try {
     const venue = await Venue.findById(id);
@@ -69,6 +69,8 @@ exports.updateVenue = async (req, res) => {
     venue.sportsAvailable = sportsAvailable || venue.sportsAvailable;
     venue.contactNumber = contactNumber || venue.contactNumber;
     venue.isActive = isActive !== undefined ? isActive : venue.isActive;
+    venue.pricePerHour = pricePerHour || venue.pricePerHour;
+
 
 
     await venue.save();

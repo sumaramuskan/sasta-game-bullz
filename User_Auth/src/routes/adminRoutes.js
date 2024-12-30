@@ -14,7 +14,7 @@ const isAdmin = require('../middlewares/isAdmin');
 const router = express.Router();
 
 // Admin routes
-router.get('/users', authMiddleware, isAdmin, getAllUsers); // Fetch all users
+router.get('/users', authMiddleware, getAllUsers); // Fetch all users
 router.get('/impPeople/:id', authMiddleware, isAdmin, getAdminById); // Fetch Admin by Id 
 router.get('/users/:id', authMiddleware, getUserById); // Fetch a user by ID
 router.put('/users/update/:id', authMiddleware, isAdmin, updateUser); // Update user details

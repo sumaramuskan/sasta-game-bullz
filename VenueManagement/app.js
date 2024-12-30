@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const venueRoutes = require('./src/routers/venueRoutes');
 const bookingRoutes = require('./src/routers/bookingRoutes');
-
 const connectDB=require('./src/config/conn')
 
 const app = express();

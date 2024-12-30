@@ -11,8 +11,8 @@ const connectDB = async () => {
 
     // Connect to MongoDB without the deprecated options
     await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+//      useNewUrlParser: true,
+//      useUnifiedTopology: true,
     });
 
     console.log('MongoDB connected successfully!');

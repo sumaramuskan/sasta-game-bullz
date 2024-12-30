@@ -8,10 +8,10 @@ const {authenticate} = require('../middleware/authMiddleware');
 router.post('/get',authenticate, bookVenue);
 
 // Route to get bookings for a venue
-router.get('/:venueId/bookings',authenticate, getVenueBookings);
+router.get('/bookings/:venueId',authenticate, getVenueBookings);
 
 // Route to check availability of a venue
-router.post('/checkAvailability', checkAvailability);
+router.get('/checkAvailability', checkAvailability);
 
 module.exports = router;
 

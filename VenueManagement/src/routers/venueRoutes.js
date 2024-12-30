@@ -6,11 +6,11 @@ const {
   updateVenue, 
   deactivateVenue 
 } = require('../controllers/venueController');
+
 const { authenticate } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Route to create a venue
 router.post('/create', authenticate, createVenue);
 
 // Route to get all venues
