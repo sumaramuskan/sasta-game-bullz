@@ -1,0 +1,95 @@
+For User Signup:
+---------------POST (http://localhost:8000/auth/api/auth/user/signup)
+--------------- raw data (
+                           {
+                           "name":"dear-bear",
+                           "email":"dearki@gmail.com",
+                           "password":"dear-bear"
+                            }
+
+                          )
+
+
+For User Login :
+--------------POST (http://localhost:8000/auth/api/auth/user/login)
+-------------- raw data (
+                        {
+                            "email":"dearki@gmail.com",
+                            "password":"dear-bear"
+                        }
+                        )
+
+
+For Admin Signup:
+---------------POST (http://localhost:8000/auth/api/auth/admin/signup)
+--------------- raw data (
+                           {
+                           "name":"hahaAdmin",
+                           "email":"hahaAdmin@gmail.com",
+                           "password":"123"
+                            }
+
+                          )
+
+
+For Admin Login :
+--------------POST (http://localhost:8000/auth/api/auth/admin/login)
+-------------- raw data (
+                        {
+                            "email":"hahaAdmin@gmail.com",
+                            "password":"123"
+                        }
+                        )
+
+
+------------------------------------------VENUE Management -------------------------------------------------------------
+
+Authorization : access token
+
+1) To create a Venue : (Only Admin)
+----------------POST(http://localhost:8000/venue/api/create)
+---------------- raw data (
+                            {
+                                "name":"bohotSaaloBaad",
+                                "location":"tumhare ghar se dur",
+                                "capacity":4,
+                                "sportsAvailable":["joTumChaho","joHumChahe","joKoiNaChahe"],
+                                "contactNumber":"1222-1222-1222",
+                                "isActive":true,
+                                "owner":"hahaAdmin",
+                                "pricePerHour":200
+                            }
+                            )
+2) To Fetch Venue :
+-------------------GET(http://localhost:8000/venue/api/fetch)
+
+3) To Fetch Specific Venue :                                               (Any Venue Id )
+---------------------------GET(http://localhost:8000/venue/api/fetch/677234b256b05c1c56e392cc)
+
+4) To Update Details of the Specific Venue :                                   (Any Venue Id)
+---------------------------- PATCH(http://localhost:8000/venue/api/update/677234b256b05c1c56e392cc)
+
+5) To Deactivate Venue:                                                       (Any Venue Id)
+----------------------PATCH(http://localhost:8000/venue/api/deactivate/677234b256b05c1c56e392cc)
+
+--------------------------------------------BOOKING-----------------------------------------------------------------
+
+1) TO Book Particular Venue :
+--------------------------POST(http://localhost:8000/venue/api/book/get/)
+-------------------------- raw data(
+                                        {
+                                        {
+                                            "venueId":"677234b256b05c1c56e392cc",
+                                            "date":"2025-01-01",
+                                            "startTime":"12:00pm",
+                                            "endTime" :"01:00pm",
+                                            "sport":"joHumChahe"
+                                        }
+
+                                        }
+                                    )
+
+2) To Check Bookings for the Particular Venue                                       (Any Id)
+-----------------------------------------GET(http://localhost:8000/venue/api/book/bookings/677234b256b05c1c56e392cc/)
+
+3)
