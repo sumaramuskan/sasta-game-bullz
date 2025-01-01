@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const {bookVenue,getVenueById,checkAvailability,getVenueBookings} = require('../controllers/bookingController');
 const {authenticate} = require('../middleware/authMiddleware');
-
+const path=require('path')
 // Route to book a venue
 router.post('/get',authenticate, bookVenue);
 
@@ -13,5 +13,8 @@ router.get('/bookings/:venueId',authenticate, getVenueBookings);
 // Route to check availability of a venue
 router.get('/checkAvailability', checkAvailability);
 
+
+router.get("/socket",(req,res)=>{
+res.sendFile(path.join(__dirname,"../public/index.html"))})
 module.exports = router;
 

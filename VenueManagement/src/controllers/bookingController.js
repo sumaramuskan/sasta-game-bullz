@@ -3,7 +3,7 @@ const Venue = require('../model/Venue');
 const mongoose = require('mongoose');
 const axios = require('axios')
 const {broadcastMessage}=require('../utils/websocket')
-
+const { io } = require('../../app');
 
 
 const calculateCost = (startTime, endTime, perHourCost) => {
@@ -12,8 +12,6 @@ const calculateCost = (startTime, endTime, perHourCost) => {
   const duration = end - start;
   return duration * perHourCost;
 };
-
-
 
 exports.bookVenue = async (req, res) => {
   const { venueId, date, startTime, endTime, sport } = req.body;
@@ -45,8 +43,7 @@ exports.bookVenue = async (req, res) => {
 
     const startTime24 = convertTo24Hour(startTime);
     const endTime24 = convertTo24Hour(endTime);
-//    console.log(typeof(startTime24))
-//    console.log(endTime24)
+
 
     if(startTime24<"09:00" || endTime24>"21:00"){
     return res.json({message:"Venue is Closed"})
@@ -90,8 +87,18 @@ exports.bookVenue = async (req, res) => {
                                             sport,
                                             cost,
                                             sport});
-    broadcastMessage( booking )
+//    broadcastMessage( booking )
     await venue.save();
+    if (io){
+    io.emit('bookingUpdate', {
+                    venueId,
+                    date,
+                    startTime: startTime24,
+                    endTime: endTime24,
+                    sport,
+                    cost
+                });
+}
     res.status(201).json({ message: 'Booking successful', venue, cost });
 
   } catch (error) {

@@ -7,11 +7,11 @@ const initializeWebSocket = (server) => {
     wss.on('connection', (ws) => {
         console.log('New WebSocket connection established.');
 
-        ws.on('message', (message) => {
-            console.log(`Received: ${message}`);
-            // Handle incoming messages
-            handleClientMessage(ws, message);
-        });
+//        ws.on('message', (message) => {
+//            console.log(`Received: ${message}`);
+//            // Handle incoming messages
+//            handleClientMessage(ws, message);
+//        });
 
         ws.on('close', () => {
             console.log('WebSocket connection closed.');
