@@ -2,14 +2,16 @@
 const Venue = require('../model/Venue');
 const mongoose = require('mongoose');
 const axios = require('axios')
-const {broadcastMessage}=require('../utils/websocket')
+//const {broadcastMessage}=require('../utils/websocket')
 const { io } = require('../../app');
+const { broadcastBookingUpdate } = require('../utils/websocket')
 
 
 const calculateCost = (startTime, endTime, perHourCost) => {
   const start = parseFloat(startTime.replace(':', '.'));
   const end = parseFloat(endTime.replace(':', '.'));
   const duration = end - start;
+  console.log(duration * perHourCost)
   return duration * perHourCost;
 };
 
@@ -70,37 +72,41 @@ exports.bookVenue = async (req, res) => {
       return res.status(400).json({ message: 'This slot is already booked for the selected sport' });
     }
 
-    const cost = parseInt(duration * venue.pricePerHour);
-    booking=[date,
-                   startTime24,
-                   endTime24,
-                   new mongoose.Types.ObjectId(userId),
-                   sport,
-                   cost,
-                   sport]
+
+   var cost = calculateCost(startTime24, endTime24, venue.pricePerHour);
+   console.log({
+     date: new Date(date),
+     startTime: startTime24,
+     endTime: endTime24,
+     user: new mongoose.Types.ObjectId(userId),
+     cost: cost,
+     sport: sport,
+   });
 
     // Create booking
-    venue.bookings.push({date,
-                                            startTime: startTime24,
-                                            endTime: endTime24,
-                                            user: new mongoose.Types.ObjectId(userId),
-                                            sport,
-                                            cost,
-                                            sport});
+    venue.bookings.push({date : new Date(date),
+                        startTime: startTime24,
+                        endTime: endTime24,
+                        user: new mongoose.Types.ObjectId(userId),
+                        cost : cost,
+                        sport : sport
+                          });
 //    broadcastMessage( booking )
     await venue.save();
-    if (io){
-    io.emit('bookingUpdate', {
-                    venueId,
-                    date,
-                    startTime: startTime24,
-                    endTime: endTime24,
-                    sport,
-                    cost
-                });
+    {
+    broadcastBookingUpdate("Booking Ho Chuki Hai abb ghar jao ")
+
+//    io.emit('bookingUpdate', {
+//                    venueId,
+//                    date,
+//                    startTime: startTime24,
+//                    endTime: endTime24,
+//                    sport,
+//                    cost
+//                });
+
 }
     res.status(201).json({ message: 'Booking successful', venue, cost });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error booking venue', "error":error });

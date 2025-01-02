@@ -13,8 +13,5 @@ router.get('/bookings/:venueId',authenticate, getVenueBookings);
 // Route to check availability of a venue
 router.get('/checkAvailability', checkAvailability);
 
-
-router.get("/socket",(req,res)=>{
-res.sendFile(path.join(__dirname,"../public/index.html"))})
 module.exports = router;
 

@@ -36,7 +36,6 @@ const VenueSchema = new mongoose.Schema({
       cost:{type:Number,required:true},
       sport:{type:String,required:true}
       }
-
   ],
 }, { timestamps: true });
 

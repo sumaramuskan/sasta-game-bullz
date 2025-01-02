@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html>-->
+<!--<!DOC TYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Venue Booking</title>
+    <title>Turf Booking</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <style>
         body {
@@ -110,11 +110,11 @@
 <body>
 <h1>Real-Time Venue Booking</h1>
 <form id="bookingForm">
-    <input type="text" id="venueId" placeholder="Enter Venue ID (e.g., 123)" required>
-    <input type="text" id="sport" placeholder="Enter Sport (e.g., Basketball)" required>
-    <input type="text" id="date" required>
-    <input type="text" id="startTime" required>
-    <input type="text" id="endTime" required>
+    <label for="venueId"></label><input type="text" id="venueId" placeholder="Enter Venue ID (e.g., 123)" required>
+    <label for="sport"></label><input type="text" id="sport" placeholder="Enter Sport (e.g., Basketball)" required>
+    <label for="date"></label><input type="text" id="date" required>
+    <label for="startTime"></label><input type="text" id="startTime" required>
+    <label for="endTime"></label><input type="text" id="endTime" required>
     <button type="submit">Book Venue</button>
     <p id="errorMessage" class="error"></p>
 </form>
@@ -124,11 +124,10 @@
 
 <script>
     // Mock JWT Token for demonstration
-    const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NmQwNTc2ODBkNjhmMWY1MTk3ZDQ2NyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM1NzI1MzI2LCJleHAiOjE3MzU4MTE3MjZ9._eEPZUF8S7QrTFk0duqzI0f4Ys8exTkEOgvLOZw5QsM';
+    const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NmQwNTc2ODBkNjhmMWY1MTk3ZDQ2NyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM1Nzk1MzEyLCJleHAiOjE3MzU4ODE3MTJ9.T_TR5jgPlukjoEsVOzs0kv1GxAYOMVicXNBX3ffpo6k";
     localStorage.setItem('jwtToken', jwtToken);
 
     const socket = io('http://localhost:3000'); // Connect to the backend
-
     // Handle booking form submission
     document.getElementById('bookingForm').addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent form submission reload
@@ -170,22 +169,10 @@
             document.getElementById('errorMessage').textContent = 'Error: Unable to process your booking.';
         });
     });
-
-    // Listen for booking updates
-    socket.on('bookingUpdate', (data) => {
-        console.log('New booking received:', data);
-
-        // Display or update the booking details in the UI
-        const bookingDetails = `
-            Venue ID: ${data.venueId}, Sport: ${data.sport},
-            Date: ${data.date}, Time: ${data.startTime} - ${data.endTime},
-            Cost: ₹${data.cost}
-        `;
-<!--        const bookingList = document.getElementById('bookingList');-->
-<!--        const bookingItem = document.createElement('li');-->
-<!--        bookingItem.textContent = bookingDetails;-->
-<!--        bookingList.appendChild(bookingItem);-->
-    });
+    socket.on('bookingUpdate', (message) => {
+    console.log('Booking Update:', message);
+    alert(message);  // You can display the message in a modal or alert on the UI
+});
 </script>
 </body>
 </html>

@@ -9,7 +9,7 @@ const connectDB=require('./src/config/conn')
 const http=require('http')
 const app = express();
 const {Server} = require('socket.io')
-
+const { initializeSocketIO } = require('./src/utils/websocket')
 
 app.use(express.json());
 app.use(cors())
@@ -17,29 +17,15 @@ app.use(express.static(path.join(__dirname,'src/public')))
 
 // Database connection
 connectDB()
-
+//let io;
 const server=http.createServer(app)
-const io=new Server(server)
+const io=initializeSocketIO(server)
 // Routes
 
 app.use('/api', venueRoutes);
 app.use('/api/book', bookingRoutes);
 
-io.on('connection', (socket) => {
-    console.log('New client connected:', socket.id);
-    // Handle disconnection
-       socket.on('message', (message) => {
-             console.log(`Received message: ${message} from ${socket.id}`);
-             // Send a response back to the client
-             socket.emit('response', `Server received: ${message} `);
-         });
 
-    socket.on('disconnect', () => {
-        console.log('Client disconnected:', socket.id);
-    });
-});
-
-// Serve index.html from /src/public
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'public', 'index.html'));
 });
@@ -47,7 +33,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-module.exports = {io}
+module.exports = {app , io}
 
 //require('dotenv').config();
 //const express = require('express');
